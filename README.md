@@ -188,6 +188,16 @@ Type your questions at the `🗣️ [USER] You:` prompt. Type `exit`, `quit`, or
 
 ---
 
+## 📝 Conclusion
+
+Putting the whole pipeline together, this project set out to solve three concrete problems: long-form video splitting its content across narration and visuals with only one side easy to search, a transcript-only chatbot's structural blind spot for anything that was only ever shown on screen, and the difficulty of trusting or verifying an answer that mixes two very different kinds of source material. The pipeline built here addresses all three directly. It chunks and embeds the full transcript so spoken content stays searchable regardless of where it falls in the video, it samples and embeds video frames as a first-class citizen of the same index so visually-only information has somewhere to be retrieved from, and it prints the exact source nodes behind every answer, labeled by modality and similarity score, so a user can see for themselves what an answer was actually grounded in.
+
+The design choices behind this also hold up reasonably well on their own terms. Treating the ingestion path as idempotent, so re-running the app on the same video skips straight to loading the existing index, keeps repeated use cheap. Reranking retrieved nodes with a cross-encoder before they reach the LLM is a deliberate quality step rather than a shortcut, and pairing that with persistent PostgreSQL-backed memory and full token and cost tracking means the chat behaves like something meant to be used repeatedly, not just demoed once.
+
+That said, this is a solution to the three problems above specifically, not a finished product. It still has real, honest gaps. The video to ingest is hardcoded in the script rather than passed in as an argument, ingestion only re-runs when the ChromaDB collections are completely empty so swapping videos requires manual cleanup, frame sampling is fixed-interval rather than scene-aware so a brief but important visual moment can still be missed, and the whole system depends on four external services being reachable with no offline fallback. The sections immediately below go through each of these gaps in detail and lay out concrete next steps for closing them.
+
+---
+
 ## ⚠️ System Limitations
 
 ### 🏗️ Architectural Limitations
