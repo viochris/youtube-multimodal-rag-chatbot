@@ -1,0 +1,60 @@
+# --- Environment & async utilities ---
+python-dotenv
+nest-asyncio
+
+# --- Video/transcript ingestion ---
+yt-dlp
+youtube-transcript-api
+opencv-python
+
+# --- LlamaIndex core & integrations ---
+llama-index-core
+llama-index-vector-stores-chroma
+llama-index-graph-stores-neo4j
+llama-index-embeddings-google-genai
+llama-index-embeddings-clip
+llama-index-llms-litellm
+
+# --- Vector database ---
+chromadb
+
+# --- LLM routing, tokenization, cost tracking ---
+litellm
+tiktoken
+
+# --- Reranking (cross-encoder) ---
+sentence-transformers
+
+# --- Observability / tracing ---
+arize-phoenix-otel
+openinference-instrumentation-llama-index
+
+# --- Persistent conversation memory (PostgreSQL) ---
+asyncpg
+
+# --- CLIP image embedding backend ---
+# ClipEmbedding needs the `clip` package on PYTHONPATH, plus its own deps.
+torch
+torchvision
+ftfy
+regex
+git+https://github.com/openai/CLIP.git
+
+# ------------------------------------------------------------------
+# NOTES (read before you `pip install`):
+#
+# 1. FFmpeg is NOT a Python package and can't be installed via pip.
+#    yt-dlp needs the FFmpeg *system binary* on your PATH to merge the
+#    separately-downloaded video and audio streams. Install it via
+#    your OS package manager (brew/apt) or from https://ffmpeg.org/.
+#
+# 2. Install everything in ONE `pip install -r requirements.txt` call
+#    inside a clean virtual environment. The LlamaIndex ecosystem is
+#    split into many fast-moving sub-packages (llama-index-core +
+#    integration packages), and installing them together lets pip's
+#    resolver pick a mutually compatible set instead of you pinning
+#    versions by hand and hitting conflicts later.
+#
+# 3. `git+https://github.com/openai/CLIP.git` requires `git` to be
+#    installed and available on your PATH at install time.
+# ------------------------------------------------------------------
